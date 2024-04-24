@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance and Budgeting Assistant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url('CCF.jpg'); 
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+        }
+
+        .content {
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background for better readability */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        p, li {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content" id="homepageContent">
+        <h1>Personal Finance and Budgeting Assistant</h1>
+        <p>"Empower Your Wallet, Master Your Money", Welcome to your financial journey! Let us help you manage your finances effectively.</p>
+        <a onclick="showAboutPage()">About Us</a>
+    </div>
+
+    <div class="content hidden" id="aboutPageContent">
+        <h1>About Us</h1>
+        <p>We are dedicated to providing you with tools and resources to take control of your personal finances. Our goal is to empower you to make informed financial decisions and achieve your financial goals.</p>
+        <a onclick="showBudgetFormPage()">Create your Budget</a>
+    </div>
+
+    <div class="content hidden" id="budgetFormContent">
+        <h1>Create Your Budget</h1>
+        <form id="budget-form">
+            <label for="income">Monthly Income (₹):</label>
+            <input type="number" id="income" name="income" required>
+
+            <label for="expenses">Monthly Expenses (₹):</label>
+            <input type="number" id="expenses" name="expenses" required>
+
+            <button type="button" onclick="calculateBudget()">Calculate</button>
+        </form>
+
+        <div id="budget-results" class="hidden">
+            <h2>Budget Overview</h2>
+            <div id="budget-summary">
+                <!-- Budget calculation results will be displayed here -->
+            </div>
+            <br>
+            <a onclick="showFinancialTips()">Financial Tips</a>
+        </div>
+    </div>
+
+    <div class="content hidden" id="financialTipsContent">
+        <h1>Financial Tips</h1>
+        <ul>
+            <li>Set specific financial goals (e.g., saving for a vacation or retirement).</li>
+            <li>Track your spending regularly to identify areas for potential savings.</li>
+            <li>Create a budget and stick to it to achieve financial discipline.</li>
+            <li>Consider automating your savings to build an emergency fund.</li>
+            <br>THANK YOU, Have a budget friendly day! </br>
+        </ul>
+        <a onclick="hideFinancialTips()">Create New Budget</a>
+    </div>
+
+    <script>
+        function showAboutPage() {
+            hideAllContent();
+            document.getElementById('aboutPageContent').style.display = 'block';
+        }
+
+        function showBudgetFormPage() {
+            hideAllContent();
+            document.getElementById('budgetFormContent').style.display = 'block';
+        }
+
+        function calculateBudget() {
+            const income = parseFloat(document.getElementById('income').value);
+            const expenses = parseFloat(document.getElementById('expenses').value);
+
+            if (isNaN(income) || isNaN(expenses)) {
+                alert('Please enter valid numbers for income and expenses.');
+                return;
+            }
+
+            const savings = income - expenses;
+            const savingsPercentage = ((savings / income) * 100).toFixed(2);
+
+            const budgetSummary = `
+                <div class="overview-item">
+                    <span class="overview-label">Monthly Income:</span>
+                    <span class="overview-value">₹${income.toFixed(2)}</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-label">Monthly Expenses:</span>
+                    <span class="overview-value">₹${expenses.toFixed(2)}</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-label">Monthly Savings:</span>
+                    <span class="overview-value">₹${savings.toFixed(2)} (${savingsPercentage}%)</span>
+                </div>
+            `;
+
+            document.getElementById('budget-summary').innerHTML = budgetSummary;
+            document.getElementById('budget-results').classList.remove('hidden');
+        }
+
+        function showFinancialTips() {
+            hideAllContent();
+            document.getElementById('financialTipsContent').style.display = 'block';
+        }
+
+        function hideFinancialTips() {
+            document.getElementById('financialTipsContent').style.display = 'none';
+            document.getElementById('budgetFormContent').style.display = 'block'; // Show the budget form content
+        }
+
+        function hideAllContent() {
+            // Hide all content sections
+            document.getElementById('homepageContent').style.display = 'none';
+            document.getElementById('aboutPageContent').style.display = 'none';
+            document.getElementById('budgetFormContent').style.display = 'none';
+            document.getElementById('financialTipsContent').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
